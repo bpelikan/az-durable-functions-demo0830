@@ -1,0 +1,65 @@
+@http_start = http://localhost:7060/api/OrchFunc_HttpStart
+@http_waiter = http://localhost:7060/api/HttpWaiter
+
+
+###
+GET {{http_waiter}}
+
+###
+POST {{http_waiter}}
+Content-Type: application/json
+
+{
+  "Name": "test",
+}
+
+
+
+
+###
+# @name http_start_request
+GET {{http_start}}
+
+
+@status = {{http_start_request.response.body.$.statusQueryGetUri}}
+
+###
+GET {{status}}
+
+
+
+
+
+# ###
+# POST {{url}}/users
+# Content-Type: application/json
+
+# {
+#   "email": "mail1@mail.com",
+#   "username": "user1",
+#   "password": "Password1",
+#   "fullName": "John Doe",
+#   "role": "user"
+# }
+
+
+
+# ###
+# # @name sign_in
+# POST {{url}}/users/sign-in
+# Content-Type: application/json
+
+# {
+#   "email": "mail1@mail.com",
+#   "password": "Password1"
+# }
+
+
+# ###
+# GET {{url}}/users/jwt
+
+# @accessToken = {{sign_in.response.body.$.accessToken}}
+
+# ###
+# GET {{url}}/users
+# Authorization: Bearer {{accessToken}}

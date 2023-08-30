@@ -1,0 +1,54 @@
+@http_start = https://dfdemobp0830.azurewebsites.net/api/OrchFunc_HttpStart?
+@http_waiter = https://dfdemobp0830.azurewebsites.net/api/HttpWaiter?code=_0BpB3HHBrGcqS7qtH6i48VihZHmP_A5cMUk8aNJcEpxAzFunmPudg==
+
+
+###
+GET {{http_waiter}}
+
+###
+POST {{http_waiter}}
+Content-Type: application/json
+
+{
+  "Name": "test",
+}
+
+
+
+
+###
+# @name http_start_request
+GET {{http_start}}
+
+
+@status = {{http_start_request.response.body.$.statusQueryGetUri}}
+
+###
+GET {{status}}
+
+
+
+
+
+
+
+
+# ###
+# # @name sign_in
+# POST {{url}}/users/sign-in
+# Content-Type: application/json
+
+# {
+#   "email": "mail1@mail.com",
+#   "password": "Password1"
+# }
+
+
+# ###
+# GET {{url}}/users/jwt
+
+# @accessToken = {{sign_in.response.body.$.accessToken}}
+
+# ###
+# GET {{url}}/users
+# Authorization: Bearer {{accessToken}}
