@@ -1,0 +1,8 @@
+{
+    "IsEncrypted": false,
+    "Values": {
+      "AzureWebJobsStorage": "UseDevelopmentStorage=true",
+      "FUNCTIONS_WORKER_RUNTIME": "dotnet",
+      "UrlHttpWaiter": "http://localhost:7060/api/HttpWaiter"
+    }
+}
