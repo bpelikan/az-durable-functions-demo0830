@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Azure.WebJobs;
 using Microsoft.Azure.WebJobs.Extensions.DurableTask;
@@ -29,6 +30,10 @@ namespace durableFunc1
                 itemsToProcess.Add(i);
             }
 
+            log.LogInformation("Task.Delay before");
+            //await Task.Delay(4000);
+            await context.CreateTimer(context.CurrentUtcDateTime.AddSeconds(4), CancellationToken.None);
+            log.LogInformation("Task.Delay after");
 
 
             int iteration = 0;
