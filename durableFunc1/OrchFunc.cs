@@ -34,6 +34,8 @@ namespace durableFunc1
             int iteration = 0;
             foreach (var items in itemsToProcess.Chunk(2))
             {
+                context.SetCustomStatus($"Iteration {iteration}");
+
                 if (!context.IsReplaying) log.LogInformation("CallActivityAsync before iteration {ProcessItemsIteration}", iteration);
                 outputs.Add(await context.CallActivityAsync<string>(nameof(ProcessItems), items));
                 if (!context.IsReplaying) log.LogInformation("CallActivityAsync after iteration {ProcessItemsIteration}", iteration);
@@ -44,14 +46,17 @@ namespace durableFunc1
             // Replace "hello" with the name of your Durable Activity Function.
             log.LogInformation("CallActivityAsync before iteration {SayHelloInput}", "Tokyo");
             outputs.Add(await context.CallActivityAsync<string>(nameof(SayHello), "Tokyo"));
+            context.SetCustomStatus("Tokyo");
             log.LogInformation("CallActivityAsync after iteration {SayHelloInput}", "Tokyo");
 
             log.LogInformation("CallActivityAsync before iteration {SayHelloInput}", "Seattle");
             outputs.Add(await context.CallActivityAsync<string>(nameof(SayHello), "Seattle"));
+            context.SetCustomStatus("Seattle");
             log.LogInformation("CallActivityAsync after iteration {SayHelloInput}", "Seattle");
 
             log.LogInformation("CallActivityAsync before iteration {SayHelloInput}", "London");
             outputs.Add(await context.CallActivityAsync<string>(nameof(SayHello), "London"));
+            context.SetCustomStatus("London");
             log.LogInformation("CallActivityAsync after iteration {SayHelloInput}", "London");
 
 
