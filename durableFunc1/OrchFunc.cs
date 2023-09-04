@@ -42,7 +42,13 @@ namespace durableFunc1
                 iteration++;
             }
 
-            
+            outputs.Add(await context.CallActivityAsync<string>(nameof(SayHello), $"1: {DateTime.Now}"));
+            outputs.Add(await context.CallActivityAsync<string>(nameof(SayHello), $"2: {DateTime.Now}"));
+            outputs.Add(await context.CallActivityAsync<string>(nameof(SayHello), $"3: {DateTime.Now}"));
+            outputs.Add(await context.CallActivityAsync<string>(nameof(SayHello), $"4: {DateTime.Now}"));
+
+
+
             // Replace "hello" with the name of your Durable Activity Function.
             log.LogInformation("CallActivityAsync before iteration {SayHelloInput}", "Tokyo");
             outputs.Add(await context.CallActivityAsync<string>(nameof(SayHello), "Tokyo"));
