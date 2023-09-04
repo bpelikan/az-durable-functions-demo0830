@@ -24,18 +24,20 @@ namespace durableFunc1
             var outputs = new List<string>();
 
             var itemsToProcess = new List<int>();
-            for (int i = 0; i < 1200; i++)   //900
+            for (int i = 0; i < 10; i++)   //900
             {
                 itemsToProcess.Add(i);
             }
 
-            int iter = 0;
-            foreach (var items in itemsToProcess.Chunk(60))
+
+
+            int iteration = 0;
+            foreach (var items in itemsToProcess.Chunk(2))
             {
-                log.LogInformation("CallActivityAsync before iteration {ProcessItemsIteration}", iter);
+                if (!context.IsReplaying) log.LogInformation("CallActivityAsync before iteration {ProcessItemsIteration}", iteration);
                 outputs.Add(await context.CallActivityAsync<string>(nameof(ProcessItems), items));
-                log.LogInformation("CallActivityAsync after iteration {ProcessItemsIteration}", iter);
-                iter++;
+                if (!context.IsReplaying) log.LogInformation("CallActivityAsync after iteration {ProcessItemsIteration}", iteration);
+                iteration++;
             }
 
             
