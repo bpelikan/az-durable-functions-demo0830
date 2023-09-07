@@ -95,6 +95,19 @@ namespace durableFunc1
                 }
             }
 
+
+            bool approved = await context.WaitForExternalEvent<bool>("Approval");
+            if (approved)
+            {
+                // approval granted - do the approved action
+                log.LogWarning("approved");
+            }
+            else
+            {
+                // approval denied - send a notification
+                log.LogWarning("not approved");
+            }
+
             log.LogInformation("OrchFunc finished with output: {OrchFuncOutput}", outputs);
             return outputs;
         }
