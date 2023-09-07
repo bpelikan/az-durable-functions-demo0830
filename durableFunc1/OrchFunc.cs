@@ -73,6 +73,28 @@ namespace durableFunc1
 
             // returns ["Hello Tokyo!", "Hello Seattle!", "Hello London!"]
 
+
+            TimeSpan timeout = TimeSpan.FromSeconds(30);
+            DateTime deadline = context.CurrentUtcDateTime.Add(timeout);
+            using (var cts = new CancellationTokenSource())
+            {
+                Task activityTask = context.CallActivityAsync(nameof(SayHello), "GetQuote");
+                Task timeoutTask = context.CreateTimer(deadline, cts.Token);
+
+                Task winner = await Task.WhenAny(activityTask, timeoutTask);
+                if (winner == activityTask)
+                {
+                    // success case
+                    //cts.Cancel();     //runtimeStatus will be not Completed until all outstanding tasks, including durable timer tasks, are either completed or canceled.
+                    log.LogWarning("timer TRUE");
+                }
+                else
+                {
+                    // timeout case
+                    log.LogWarning("Timer FALSE");
+                }
+            }
+
             log.LogInformation("OrchFunc finished with output: {OrchFuncOutput}", outputs);
             return outputs;
         }
